@@ -3,3 +3,4 @@ gunicorn==21.2.0
 pyrebase4==4.7.1
 python-dotenv==1.0.0
 requests
+setuptools
