@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Hidden Entries - Wellness Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <header><h1>Hidden Journal Entries</h1><p>This is your private space for sensitive thoughts.</p></header>
+    <hr>
+    {% if entries %}
+        {% for entry in entries %}
+        <article class="entry-card">
+            <header class="entry-card-header">
+                <h2>{{ entry.title }}</h2>
+                <span class="entry-mood">Mood: {{ entry.mood }}</span>
+            </header>
+            <p>{{ entry.content }}</p>
+            <p class="entry-meta"><em>Saved on: {{ entry.timestamp.split('T')[0] }}</em></p>
+        </article>
+        {% endfor %}
+    {% else %}
+        <p style="text-align: center;">You have no hidden journal entries yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

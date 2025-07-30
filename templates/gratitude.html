@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Daily Reflection - Wellness Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <header class="home-header">
+        <h1>Daily Reflection & Gratitude</h1>
+        <p>Take a quiet moment to reflect on the prompt below.</p>
+    </header>
+    <div class="gratitude-card">
+        <p class="gratitude-prompt">"{{ prompt }}"</p>
+        <a href="{{ url_for('gratitude_page') }}" class="button-primary">New Prompt</a>
+    </div>
+</div>
+{% endblock %}

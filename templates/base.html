@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Wellness Tracker{% endblock %}</title>
+    <!-- This is the one, correct link to your stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    
+    <div class="animation-container">
+        <div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div>
+    </div>
+
+    {% block nav %}
+       <!-- Inside templates/base.html -->
+<nav>
+    <a href="{{ url_for('home_page') }}" {% if request.endpoint == 'home_page' %}class="active"{% endif %}>Home</a>
+    <a href="{{ url_for('entries_page') }}" {% if request.endpoint in ['entries_page', 'hidden_entries_page'] %}class="active"{% endif %}>Journal</a>
+    
+    <!-- =========== THIS IS THE NEWLY ADDED LINK =========== -->
+    <a href="{{ url_for('new_entry_page') }}" {% if request.endpoint == 'new_entry_page' %}class="active"{% endif %}>New Entry</a>
+    <!-- ======================================================= -->
+
+    <a href="{{ url_for('gratitude_page') }}" {% if request.endpoint == 'gratitude_page' %}class="active"{% endif %}>Gratitude</a>
+    <a href="{{ url_for('habits_page') }}" {% if request.endpoint == 'habits_page' %}class="active"{% endif %}>Habits</a>
+    <a href="{{ url_for('moods_page') }}" {% if request.endpoint == 'moods_page' %}class="active"{% endif %}>Moods</a>
+    <a href="{{ url_for('daily_quote_page') }}" {% if request.endpoint == 'daily_quote_page' %}class="active"{% endif %}>Daily Quote</a>
+    <a href="{{ url_for('about_page') }}" {% if request.endpoint == 'about_page' %}class="active"{% endif %}>About</a>
+    <form action="{{ url_for('logout') }}" method="POST" style="display: inline;">
+        <button type="submit" class="nav-logout">Logout</button>
+    </form>
+</nav>
+    {% endblock %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

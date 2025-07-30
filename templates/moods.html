@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Mood Tracker - Wellness Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <header><h1>Log Your Mood</h1><p>How are you feeling right now?</p></header>
+    <form action="{{ url_for('log_mood') }}" method="POST">
+        <div class="form-group"><label for="mood">Mood Name:</label><input type="text" id="mood" name="mood" required placeholder="e.g., Happy, Anxious, Productive"></div>
+        <div class="form-group"><label for="mood_score">Score (1-10):</label><input type="range" id="mood_score" name="mood_score" min="1" max="10" value="5" oninput="this.nextElementSibling.value = this.value" style="padding: 0;"><output style="text-align: center; font-weight: bold; color: var(--persian-pink);">5</output></div>
+        <div class="form-group"><label for="notes">Notes (optional):</label><textarea id="notes" name="notes" rows="3" placeholder="Any thoughts on why you're feeling this way?"></textarea></div>
+        <button type="submit">Log Mood</button>
+    </form>
+    <hr />
+    <header><h2>Your Mood Over the Last 30 Days</h2></header>
+    <div class="chart-container"><canvas id="moodChart"></canvas></div>
+    <hr />
+    <header><h2>Past Mood Logs</h2></header>
+    <div class="past-logs">
+        {% if all_logs %}
+            {% for log in all_logs %}
+                <article class="entry-card">
+                    <header class="entry-card-header">
+                        <h2>{{ log.timestamp_obj.strftime('%B %d, %Y at %I:%M %p') }}</h2>
+                        <span class="entry-mood">Score: {{ log.mood_score }}/10</span>
+                    </header>
+                    <p><strong>Mood:</strong> {{ log.mood }}</p>
+                    {% if log.notes %}<p><strong>Notes:</strong> {{ log.notes }}</p>{% endif %}
+                </article>
+            {% endfor %}
+        {% else %}
+            <p style="text-align: center;">You haven't logged any moods yet. Use the form above to get started!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const labels = {{ graph_labels_json | safe }};
+        const dataPoints = {{ graph_data_json | safe }};
+        if (labels.length > 0) {
+            const ctx = document.getElementById('moodChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Mood Score (1-10)',
+                        data: dataPoints,
+                        fill: true,
+                        backgroundColor: 'rgba(255, 140, 198, 0.2)',
+                        borderColor: 'rgba(255, 140, 198, 1)',
+                        tension: 0.1,
+                        pointBackgroundColor: 'white',
+                        pointBorderColor: 'var(--persian-pink)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true, max: 10, ticks: { color: 'var(--mimi-pink)' }, grid: { color: 'rgba(255, 221, 226, 0.1)' } },
+                        x: { ticks: { color: 'var(--mimi-pink)' }, grid: { color: 'rgba(255, 221, 226, 0.1)' } }
+                    },
+                    plugins: { legend: { labels: { color: 'var(--mimi-pink)' } } }
+                }
+            });
+        } else {
+            document.querySelector('.chart-container').innerHTML = '<p style="text-align:center;">Log your mood for a few days to see your graph here!</p>';
+        }
+    });
+</script>
+{% endblock %}

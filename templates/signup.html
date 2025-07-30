@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Sign Up - Wellness Tracker{% endblock %}
+{% block body_class %}auth-body{% endblock %}
+
+{% block nav %}{% endblock %}
+
+{% block content %}
+<div class="container auth-container">
+    <form method="post" action="{{ url_for('signup') }}">
+        <h2>Create Your Account</h2>
+        <p>Start tracking your wellness today.</p>
+        {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}
+            {% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}
+        {% endif %}{% endwith %}
+        <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" required /></div>
+        <div class="form-group"><label for="password">Password</label><input type="password" id="password" name="password" required minlength="6" /></div>
+        <button type="submit">Sign Up</button>
+    </form>
+    <p class="auth-switch-link">Already have an account? <a href="{{ url_for('login_page') }}">Log In</a></p>
+</div>
+{% endblock %}```

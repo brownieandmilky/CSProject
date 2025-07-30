@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Journal Entries - Wellness Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <header class="page-header">
+        <div>
+            <h1>Your Journal Entries</h1>
+            <p>Reflect, write, and track your thoughts and feelings daily.</p>
+        </div>
+        
+        <!-- Wrapper for buttons to align them nicely -->
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <a href="{{ url_for('hidden_entries_page') }}" class="button-secondary">View Hidden</a>
+
+            <!-- =========== THIS IS THE NEW BUTTON =========== -->
+            <a href="{{ url_for('new_entry_page') }}" class="button-primary" style="margin-top: 0.5rem;">New Entry</a>
+            <!-- ============================================== -->
+        </div>
+
+    </header>
+    <hr>
+    {% if entries %}
+        {% for entry in entries %}
+        <article class="entry-card">
+            <header class="entry-card-header">
+                <h2>{{ entry.title }}</h2>
+                <span class="entry-mood">Mood: {{ entry.mood }}</span>
+            </header>
+            <p class="entry-content">{{ entry.content }}</p> 
+            <p class="entry-meta"><em>Saved on: {{ entry.timestamp.split('T')[0] }}</em></p>
+        </article>
+        {% endfor %}
+    {% else %}
+        <div style="text-align: center; padding: 2rem;">
+            <p>You have no public journal entries yet.</p>
+            <a href="{{ url_for('new_entry_page') }}" class="button-primary">Create Your First One!</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

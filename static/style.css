@@ -1,0 +1,210 @@
+/* =================================================================== */
+/*                           WELLNESS TRACKER                          */
+/*                      FINAL & COMPLETE STYLESHEET                    */
+/* =================================================================== */
+
+
+/* --- 1. Root Variables & Basic Setup --- */
+:root {
+    /* Color Palette */
+    --mimi-pink: #ffdde2;
+    --misty-rose: #efd6d2;
+    --persian-pink: #ff8cc6;
+    --hollywood-cerise: #de369d;
+    --chinese-violet: #6f5e76;
+    --error-red: #ea3546;
+
+    /* Sizing & Animation Timing */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --transition-fast: 0.2s ease;
+    --transition-med: 0.4s ease;
+    --transition-slow: 0.8s ease-out;
+}
+
+/* Basic Reset & Box Sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* --- 2. General Layout & Typography --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--chinese-violet);
+    color: var(--mimi-pink);
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative; /* Crucial for positioning the animation */
+}
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: rgba(0,0,0,0.2);
+    border: 1px solid var(--hollywood-cerise);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    animation: floatUp 0.8s var(--transition-slow) forwards;
+    opacity: 0;
+    position: relative; 
+    z-index: 2; 
+}
+
+h1, h2, h3, h4 {
+    color: var(--mimi-pink);
+    margin-bottom: 1rem;
+}
+
+h1 { font-size: 2.8rem; }
+h2 { font-size: 2rem; }
+
+p { margin-bottom: 1rem; color: var(--misty-rose); }
+a { color: var(--persian-pink); text-decoration: none; font-weight: bold; transition: color var(--transition-fast); }
+a:hover { color: var(--mimi-pink); }
+hr { border: 0; height: 2px; margin: 2rem 0; background-image: linear-gradient(to right, transparent, var(--hollywood-cerise), transparent); }
+
+
+/* --- 3. Global Orb Animation --- */
+.animation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1; /* Sits behind all content */
+    pointer-events: none; /* Allows clicks to go through */
+    overflow: hidden;
+}
+
+.orb {
+    position: absolute;
+    bottom: -150px;
+    width: 40px;
+    height: 40px;
+    background-color: var(--persian-pink);
+    border-radius: 50%;
+    opacity: 0;
+    filter: blur(20px);
+    animation-name: float;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes float {
+    from { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+    to { transform: translateY(-120vh) rotate(720deg); opacity: 0; }
+}
+
+.orb:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-duration: 25s; animation-delay: 0s; }
+.orb:nth-child(2) { width: 30px; height: 30px; left: 35%; animation-duration: 30s; animation-delay: 5s; background-color: var(--mimi-pink); }
+.orb:nth-child(3) { width: 120px; height: 120px; left: 80%; animation-duration: 18s; animation-delay: 2s; }
+.orb:nth-child(4) { width: 50px; height: 50px; left: 90%; animation-duration: 35s; animation-delay: 12s; background-color: var(--mimi-pink); }
+.orb:nth-child(5) { width: 60px; height: 60px; left: 50%; animation-duration: 22s; animation-delay: 8s; }
+
+
+/* --- 4. Navigation Bar --- */
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    background-color: rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 10;
+    flex-wrap: wrap; /* Allow nav items to wrap on smaller screens */
+}
+
+nav a {
+    margin: 0.5rem 1rem;
+    color: var(--mimi-pink);
+    font-weight: bold;
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+nav a.active { color: white; }
+nav a.active::after, nav a:hover::after { transform: scaleX(1); transform-origin: bottom left; }
+nav a::after { content: ''; position: absolute; width: 100%; transform: scaleX(0); height: 2px; bottom: 0; left: 0; background-color: var(--persian-pink); transform-origin: bottom right; transition: transform var(--transition-med) cubic-bezier(0.86, 0, 0.07, 1); }
+.nav-logout { background: none !important; color: var(--persian-pink) !important; border: 1px solid var(--persian-pink) !important; padding: 8px 16px !important; font-size: 14px !important; margin-left: 1.5rem; border-radius: var(--border-radius-sm); }
+.nav-logout:hover { background-color: var(--persian-pink) !important; color: var(--chinese-violet) !important; }
+
+
+/* --- 5. Forms, Inputs & Buttons --- */
+form { margin-top: 1.5rem; }
+.form-group { position: relative; margin-bottom: 2rem; }
+form label { display: block; margin-bottom: 0.75rem; font-weight: bold; color: var(--mimi-pink); }
+form input, form textarea, button, .button-primary, .button-secondary { font-family: inherit; width: 100%; padding: 0.85rem; border-radius: var(--border-radius-sm); }
+form input[type="text"], form input[type="email"], form input[type="password"], form textarea { background-color: var(--chinese-violet); border: 1px solid var(--hollywood-cerise); color: var(--mimi-pink); transition: box-shadow var(--transition-fast), border-color var(--transition-fast); }
+form input:focus, form textarea:focus { outline: none; border-color: var(--persian-pink); box-shadow: 0 0 10px var(--persian-pink); }
+.button-primary, button, input[type="submit"] { font-weight: bold; font-size: 1rem; color: var(--mimi-pink); background-color: rgba(222, 54, 157, 0.6); border: 1px solid var(--hollywood-cerise); backdrop-filter: blur(4px); cursor: pointer; transition: all var(--transition-fast); margin-top: 1.5rem; }
+.button-primary:hover, button:hover, input[type="submit"]:hover { background-color: var(--hollywood-cerise); color: white; transform: scale(1.02); box-shadow: 0 0 15px var(--hollywood-cerise); }
+
+
+/* --- 6. Page-Specific Styles --- */
+
+/* -- Auth Pages (Login, Signup, Verify) -- */
+.auth-body { display: grid; place-items: center; min-height: 100vh; }
+.auth-container { max-width: 420px; text-align: center; }
+.auth-switch-link { margin-top: 1.5rem; }
+.flash { display: flex; align-items: center; padding: 0.75rem 1rem; margin-bottom: 1rem; border-radius: var(--border-radius-sm); border: 1px solid; font-weight: bold; }
+.flash.success { background-color: rgba(255, 140, 198, 0.1); border-color: var(--persian-pink); color: var(--persian-pink); }
+.flash.error { background-color: rgba(234, 53, 70, 0.1); border-color: var(--error-red); color: var(--error-red); }
+
+/* -- Home Page -- */
+.home-container { display: flex; flex-direction: column; align-items: center; }
+.home-header { text-align: center; margin-bottom: 2rem; }
+.home-container > p, .home-container > hr { max-width: 650px; text-align: center; width: 100%; }
+.heart-container { position: relative; z-index: 2; width: 100%; max-width: 180px; margin-top: 3rem; animation: pulse-glow 4s ease-in-out infinite; }
+.heart-container svg path { fill: var(--persian-pink); stroke: none; }
+@keyframes pulse-glow { 0% { transform: scale(1); filter: drop-shadow(0 0 5px var(--persian-pink)); } 50% { transform: scale(1.05); filter: drop-shadow(0 0 20px var(--hollywood-cerise)); } 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--persian-pink)); } }
+
+/* -- Journal Entries Page -- */
+.page-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; margin-bottom: -1rem; flex-wrap: wrap; }
+.button-secondary { display: inline-block; padding: 0.6rem 1.2rem; margin-top: 0.5rem; font-size: 0.9rem; white-space: nowrap; background-color: transparent; color: var(--persian-pink); border: 1px solid var(--persian-pink); }
+.button-secondary:hover { background-color: var(--persian-pink); color: var(--chinese-violet); }
+.entry-card { background-color: rgba(255,255,255,0.05); padding: 1.5rem; margin-bottom: 1.5rem; }
+.entry-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;}
+.entry-card-header h2 { margin-bottom: 0; }
+.entry-mood { font-weight: bold; color: var(--persian-pink); background-color: rgba(255, 140, 198, 0.1); padding: 0.25rem 0.75rem; border-radius: var(--border-radius-sm); }
+.entry-meta { font-size: 0.85rem; opacity: 0.7; margin-top: 1rem; text-align: right; color: var(--misty-rose); }
+
+/* -- New Entry Page -- */
+.mood-selector { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px; padding: 15px; border: 1px solid var(--hollywood-cerise); background-color: var(--chinese-violet); border-radius: var(--border-radius-md); }
+.mood-radio { cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: transform var(--transition-fast); min-width: 80px; }
+.mood-radio:hover { transform: translateY(-5px); }
+.mood-radio input[type="radio"] { display: none; }
+.mood-emoji { font-size: 3.5rem; padding: 10px; border-radius: 50%; display: inline-block; transition: background-color var(--transition-fast), transform var(--transition-fast); }
+.mood-label { margin-top: 5px; font-size: 0.9rem; font-weight: 500; color: var(--misty-rose); transition: color var(--transition-fast); }
+.mood-radio input[type="radio"]:checked + .mood-emoji { background-color: rgba(222, 54, 157, 0.2); transform: scale(1.1); filter: drop-shadow(0 0 10px var(--persian-pink)); }
+.mood-radio input[type="radio"]:checked ~ .mood-label { color: var(--persian-pink); font-weight: bold; }
+.form-toggle { display: flex; justify-content: space-between; align-items: center; background-color: var(--chinese-violet); border: 1px solid var(--hollywood-cerise); border-radius: var(--border-radius-md); padding: 1rem; margin-top: 2rem; }
+.toggle-switch { position: relative; display: inline-block; width: 60px; height: 34px; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.3); border: 1px solid var(--hollywood-cerise); border-radius: 34px; transition: var(--transition-med); }
+.slider:before { position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 3px; background-color: var(--misty-rose); border-radius: 50%; transition: var(--transition-med); }
+input:checked + .slider { background-color: var(--hollywood-cerise); box-shadow: 0 0 10px var(--hollywood-cerise); }
+input:checked + .slider:before { transform: translateX(26px); background-color: white; }
+
+/* -- Gratitude Page -- */
+.gratitude-card { padding: 3rem 2rem; margin-top: 2rem; text-align: center; }
+.gratitude-prompt { font-size: 1.75rem; font-weight: 500; color: var(--mimi-pink); line-height: 1.5; max-width: 600px; margin: 0 auto 2.5rem auto; }
+.gratitude-card .button-primary { padding: 0.75rem 2rem; font-size: 1rem; margin-top:0; display: inline-block; width: auto; }
+
+/* -- Quote Page -- */
+.quote-box { padding: 3rem 2rem; text-align: center; }
+blockquote { font-size: 1.75rem; font-weight: 500; color: var(--mimi-pink); line-height: 1.5; max-width: 600px; margin: 0 auto 1.5rem auto; }
+figcaption { font-weight: bold; color: var(--persian-pink); }
+
+/* -- Moods Page -- */
+.chart-container { margin: 2rem 0; padding: 1rem; background-color: rgba(0,0,0,0.2); border: 1px solid var(--persian-pink); border-radius: var(--border-radius-md); }
+
+
+/* --- 7. Animations & Keyframes --- */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes floatUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Habit Tracker - Wellness Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <header><h1>Habit Tracker</h1><p>Cultivate the routines that help you thrive.</p></header>
+    <form method="POST" action="{{ url_for('add_habit') }}">
+        <div class="form-group"><input type="text" name="name" placeholder="e.g., Meditate for 10 minutes" required /></div>
+        <div class="form-group"><input type="text" name="description" placeholder="Description (optional)" /></div>
+        <button type="submit">Add New Habit</button>
+    </form>
+    <hr />
+    <div id="habit-list">
+        <h2>Your Current Habits</h2>
+        {% if habits %}
+            {% for habit in habits %}
+            <article class="entry-card" style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="margin: 0; display: flex; align-items: center; gap: 1rem;">
+                    <input type="checkbox" onchange="toggleHabit('{{ habit.id }}')" {% if habit.completed_today %}checked{% endif %} style="width: auto; transform: scale(1.5);">
+                    <div>
+                        <strong>{{ habit.name }}</strong>
+                        {% if habit.description %}<p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">{{ habit.description }}</p>{% endif %}
+                    </div>
+                </label>
+                <span class="entry-mood">🔥 {{ habit.streak or 0 }}</span>
+            </article>
+            {% endfor %}
+        {% else %}
+            <p style="text-align: center;">You haven't added any habits yet. Use the form above to start!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Daily Quote - Wellness Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <header class="home-header">
+        <h1>Your Daily Quote</h1>
+        <p>A little inspiration for your day.</p>
+    </header>
+    <div class="quote-box">
+        <blockquote id="quote-text">Loading quote...</blockquote>
+        <figcaption id="quote-author"></figcaption>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{ url_for('api.get_daily_quote') }}")
+            .then(response => response.ok ? response.json() : Promise.reject('Network response was not ok'))
+            .then(data => {
+                document.getElementById('quote-text').textContent = `“${data.quote}”`;
+                document.getElementById('quote-author').textContent = `— ${data.author}`;
+            })
+            .catch(error => {
+                document.getElementById('quote-text').textContent = "Could not load a quote at this time.";
+            });
+    });
+</script>
+{% endblock %}

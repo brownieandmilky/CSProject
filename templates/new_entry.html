@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}New Journal Entry - Wellness Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <header><h1>Create a New Journal Entry</h1><p>What's on your mind today? Capture your thoughts below.</p></header>
+    <form action="{{ url_for('save_new_entry') }}" method="POST">
+        <div class="form-group"><label for="title">Title:</label><input type="text" id="title" name="title" placeholder="A title for your entry" required /></div>
+        <div class="form-group"><label for="content">Content:</label><textarea id="content" name="content" rows="10" placeholder="Write your thoughts here..." required></textarea></div>
+        <div class="form-group">
+            <label>Current Mood:</label>
+            <div class="mood-selector">
+                <label class="mood-radio"><input type="radio" name="mood" value="Happy" required><span class="mood-emoji">😊</span><span class="mood-label">Happy</span></label>
+                <label class="mood-radio"><input type="radio" name="mood" value="Grateful"><span class="mood-emoji">🙏</span><span class="mood-label">Grateful</span></label>
+                <label class="mood-radio"><input type="radio" name="mood" value="Excited"><span class="mood-emoji">🤩</span><span class="mood-label">Excited</span></label>
+                <label class="mood-radio"><input type="radio" name="mood" value="Neutral" checked><span class="mood-emoji">😐</span><span class="mood-label">Neutral</span></label>
+                <label class="mood-radio"><input type="radio" name="mood" value="Sad"><span class="mood-emoji">😔</span><span class="mood-label">Sad</span></label>
+                <label class="mood-radio"><input type="radio" name="mood" value="Anxious"><span class="mood-emoji">😟</span><span class="mood-label">Anxious</span></label>
+            </div>
+        </div>
+        <div class="form-group form-toggle">
+            <label for="is_hidden">Mark this entry as hidden/private</label>
+            <label class="toggle-switch"><input type="checkbox" id="is_hidden" name="is_hidden"><span class="slider"></span></label>
+        </div>
+        <button type="submit" class="button-primary">Save Entry</button>
+    </form>
+</div>
+{% endblock %}
